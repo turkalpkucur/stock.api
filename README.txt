@@ -1,0 +1,1 @@
+this is a backend .net core api service project. as simple as it is!.. 
