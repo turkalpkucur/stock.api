@@ -1,3 +1,6 @@
 <Solution>
+  <Folder Name="/Solution Items/" />
   <Project Path="Stock.Api/Stock.Api.csproj" />
+  <Project Path="Stock.Entities/Stock.Entities.csproj" Id="199d7468-adfd-45b1-bebc-fad23860d445" />
+  <Project Path="Stock.Services/Stock.Services.csproj" Id="2969707c-3c94-4718-a3eb-5ef2125062ee" />
 </Solution>
