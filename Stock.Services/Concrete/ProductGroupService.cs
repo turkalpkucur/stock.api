@@ -15,7 +15,7 @@ namespace Stock.Services.Concrete
 
         public async Task<ProductGroup> InsertAsync(ProductGroup productGroup)
         {
-            _context.ProductGroups.Add(productGroup);
+            await _context.ProductGroups.AddAsync(productGroup);
 
             await _context.SaveChangesAsync();
 

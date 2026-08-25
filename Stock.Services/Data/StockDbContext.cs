@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stock.Entities.Entities;
-using System.Reflection.Emit;
 
 namespace Stock.Services.Data
 {
@@ -22,23 +21,34 @@ namespace Stock.Services.Data
             ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Product>()
-                .Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(200);
-
-            modelBuilder.Entity<ProductGroup>()
-                .Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(200);
+            modelBuilder.Entity<ProductGroup>(entity =>
+            {
+                entity.ToTable("product_groups", schema: "stockgeneral").HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("product_group_id").IsRequired();
+                entity.Property(e => e.Name).HasColumnName("product_group_name").IsRequired(); 
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
+            });
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.ToTable("products", schema: "stockgeneral");
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
+            });
 
             modelBuilder.Entity<User>()
-                .ToTable("user");
+                .ToTable("user", schema: "auth"); // şema doğruysa
 
             modelBuilder.Entity<User>()
                 .Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(200);
+
+            base.OnModelCreating(modelBuilder);
         }
+
+    
     }
 }

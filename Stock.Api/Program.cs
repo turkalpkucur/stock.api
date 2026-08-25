@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Stock.Services.Abstract;
 using Stock.Services.Concrete;
 using Stock.Services.Data;
+using System.Reflection.Emit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ builder.Services.AddDbContext<StockDbContext>(options =>
            .LogTo(Console.WriteLine, LogLevel.Information));
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductGroupService, ProductGroupService>();
+
+ 
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

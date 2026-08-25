@@ -9,6 +9,6 @@
         public int ProductGroupId { get; set; }
 
         public string? Description { get; set; }
-        public ProductGroup ProductGroup { get; set; } = null!;
+        public ProductGroup ProductGroup { get; set; } 
     }
 }
