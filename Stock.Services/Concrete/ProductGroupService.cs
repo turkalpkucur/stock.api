@@ -1,4 +1,5 @@
-﻿using Stock.Entities.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using Stock.Entities.Dtos;
 using Stock.Entities.Entities;
 using Stock.Services.Abstract;
 using Stock.Services.Data;
@@ -23,9 +24,16 @@ namespace Stock.Services.Concrete
             return productGroup;
         }
 
-        public Task<List<ProductGroupResponse>> ListAsync()
+        public async Task<List<ProductGroupResponse>> ListAsync()
         {
-            throw new NotImplementedException();
+            List<ProductGroupResponse> productGroups = await _context.ProductGroups
+                 .Select(pg => new ProductGroupResponse
+                 {
+                     Name = pg.Name,
+                     Id=pg.Id
+                 })
+                 .ToListAsync();
+            return productGroups;
         }
     }
 }

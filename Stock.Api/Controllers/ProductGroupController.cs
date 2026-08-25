@@ -28,5 +28,12 @@ namespace Stock.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var result = await _productGroupService.ListAsync();
+            return Ok(result);
+        }
     }
 }
