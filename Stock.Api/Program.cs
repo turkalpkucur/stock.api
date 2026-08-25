@@ -11,12 +11,15 @@ builder.Services.AddDbContext<StockDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration
             .GetConnectionString("PostgreSql")
-    ));
+    ).EnableSensitiveDataLogging()
+
+           .LogTo(Console.WriteLine, LogLevel.Information));
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductGroupService, ProductGroupService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+ 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

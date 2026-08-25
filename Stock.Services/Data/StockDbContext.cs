@@ -21,10 +21,6 @@ namespace Stock.Services.Data
         protected override void OnModelCreating(
             ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>()
-                .HasOne(x => x.ProductGroup)
-                .WithMany(x => x.Products)
-                .HasForeignKey(x => x.ProductGroupId);
 
             modelBuilder.Entity<Product>()
                 .Property(x => x.Name)
