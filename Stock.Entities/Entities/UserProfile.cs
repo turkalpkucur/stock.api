@@ -1,6 +1,6 @@
 ﻿namespace Stock.Entities.Entities
 {
-    public class Profile
+    public class UserProfile
     {
         public int Id { get; set; }
 

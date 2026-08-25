@@ -1,4 +1,5 @@
-﻿using Stock.Entities.Entities;
+﻿using Stock.Entities.Dtos;
+using Stock.Entities.Entities;
 using Stock.Services.Abstract;
 using Stock.Services.Data;
 
@@ -20,6 +21,11 @@ namespace Stock.Services.Concrete
             await _context.SaveChangesAsync();
 
             return productGroup;
+        }
+
+        public Task<List<ProductGroupResponse>> ListAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

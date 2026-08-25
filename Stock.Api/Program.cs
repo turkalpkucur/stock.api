@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Stock.Entities.Mapping;
 using Stock.Services.Abstract;
 using Stock.Services.Concrete;
 using Stock.Services.Data;
@@ -22,8 +23,8 @@ builder.Services.AddScoped<IProductGroupService, ProductGroupService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
- 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
