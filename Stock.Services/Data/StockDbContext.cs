@@ -24,11 +24,8 @@ namespace Stock.Services.Data
             modelBuilder.Entity<ProductGroup>(entity =>
             {
                 entity.ToTable("product_groups", schema: "stockgeneral").HasKey(e => e.Id);
-                entity.Property(e => e.Id).HasColumnName("product_group_id").IsRequired();
+                entity.Property(e => e.Id).HasColumnName("product_group_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd(); 
                 entity.Property(e => e.Name).HasColumnName("product_group_name").IsRequired(); 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(200);
             });
             modelBuilder.Entity<Product>(entity =>
             {
@@ -45,10 +42,6 @@ namespace Stock.Services.Data
                 .Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(200);
-
-            base.OnModelCreating(modelBuilder);
         }
-
-    
     }
 }

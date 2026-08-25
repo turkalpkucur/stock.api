@@ -5,9 +5,8 @@ namespace Stock.Entities.Entities
 {
     public class ProductGroup
     {
-        [Column("product_group_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
-
         public string Name { get; set; }
  
     }
