@@ -17,15 +17,25 @@ namespace Stock.Services.Data
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<UserProfile> UserProfiles { get; set; }
+
         protected override void OnModelCreating(
             ModelBuilder modelBuilder)
         {
 
+            modelBuilder.Entity<UserProfile>(entity =>
+            {
+                entity.ToTable("user_profiles", schema: "auth").HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("user_profile_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd(); 
+                entity.Property(e => e.Name).HasColumnName("user_profile_name").IsRequired(); 
+            });
+
+
             modelBuilder.Entity<ProductGroup>(entity =>
             {
                 entity.ToTable("product_groups", schema: "stockgeneral").HasKey(e => e.Id);
-                entity.Property(e => e.Id).HasColumnName("product_group_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd(); 
-                entity.Property(e => e.Name).HasColumnName("product_group_name").IsRequired(); 
+                entity.Property(e => e.Id).HasColumnName("product_group_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd();
+                entity.Property(e => e.Name).HasColumnName("product_group_name").IsRequired();
             });
 
 

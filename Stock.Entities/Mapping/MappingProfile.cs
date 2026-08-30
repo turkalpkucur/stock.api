@@ -2,6 +2,7 @@
 using AutoMapper;
 using Stock.Entities.Dtos.ProductGroup;
 using Stock.Entities.Dtos.Product;
+using Stock.Entities.Dtos.UserProfile;
 namespace Stock.Entities.Mapping
 {
     public class MappingProfile : Profile
@@ -13,11 +14,10 @@ namespace Stock.Entities.Mapping
 
             CreateMap<ProductInsertRequestDto, Product>();
             CreateMap<ProductUpdateRequestDto, Product>();
-            //CreateMap<ProductGroup, ProductGroupResponseDto>();
 
-            //// Diğer entity'ler için de burada tanımlarsınız
-            //CreateMap<ProductRequestDto, Product>();
-            //CreateMap<Product, ProductResponseDto>();
+            CreateMap<UserProfileInsertRequestDto, UserProfile>();
+            CreateMap<UserProfileUpdateRequestDto, UserProfile>();
+ 
         }
     }
 }

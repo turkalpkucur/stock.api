@@ -18,8 +18,8 @@ builder.Services.AddDbContext<StockDbContext>(options =>
            .LogTo(Console.WriteLine, LogLevel.Information));
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductGroupService, ProductGroupService>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 
- 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -15,6 +15,17 @@ namespace Stock.Services.Concrete
             _context = context;
         }
 
+        public async Task<List<ProductGroupResponse>> ListAsync()
+        {
+            List<ProductGroupResponse> productGroups = await _context.ProductGroups
+                 .Select(pg => new ProductGroupResponse
+                 {
+                     Name = pg.Name,
+                     Id = pg.Id
+                 })
+                 .OrderBy(g => g.Name).ToListAsync();
+            return productGroups;
+        }
         public async Task<ProductGroup> InsertAsync(ProductGroup productGroup)
         {
             await _context.ProductGroups.AddAsync(productGroup);
@@ -43,16 +54,5 @@ namespace Stock.Services.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ProductGroupResponse>> ListAsync()
-        {
-            List<ProductGroupResponse> productGroups = await _context.ProductGroups
-                 .Select(pg => new ProductGroupResponse
-                 {
-                     Name = pg.Name,
-                     Id=pg.Id
-                 })
-                 .OrderBy(g=>g.Name).ToListAsync();
-            return productGroups;
-        }
     }
 }

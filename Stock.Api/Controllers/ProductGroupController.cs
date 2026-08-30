@@ -18,6 +18,13 @@ namespace Stock.Api.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ListAsync()
+        {
+            var result = await _productGroupService.ListAsync();
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> InsertAsync(ProductGroupInsertRequestDto productGroup)
         {
@@ -47,11 +54,6 @@ namespace Stock.Api.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ListAsync()
-        {
-            var result = await _productGroupService.ListAsync();
-            return Ok(result);
-        }
+    
     }
 }
