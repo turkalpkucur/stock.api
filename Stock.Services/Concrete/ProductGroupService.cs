@@ -24,6 +24,25 @@ namespace Stock.Services.Concrete
             return productGroup;
         }
 
+        public async Task<ProductGroup> UpdateAsync(ProductGroup productGroup)
+        {
+            ProductGroup existingProductGroup = await _context.ProductGroups.Where(g => g.Id == productGroup.Id).FirstOrDefaultAsync();
+            existingProductGroup.Name = productGroup.Name;
+            _context.ProductGroups.Update(existingProductGroup);
+
+            await _context.SaveChangesAsync();
+
+            return existingProductGroup;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            ProductGroup existingProductGroup = await _context.ProductGroups.Where(g => g.Id == id).FirstOrDefaultAsync();
+            _context.ProductGroups.Remove(existingProductGroup);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<ProductGroupResponse>> ListAsync()
         {
             List<ProductGroupResponse> productGroups = await _context.ProductGroups
@@ -32,7 +51,7 @@ namespace Stock.Services.Concrete
                      Name = pg.Name,
                      Id=pg.Id
                  })
-                 .ToListAsync();
+                 .OrderBy(g=>g.Name).ToListAsync();
             return productGroups;
         }
     }

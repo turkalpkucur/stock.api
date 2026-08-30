@@ -7,7 +7,8 @@ namespace Stock.Entities.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<ProductGroupRequestDto, ProductGroup>();
+            CreateMap<ProductGroupInsertRequestDto, ProductGroup>();
+            CreateMap<ProductGroupUpdateRequestDto, ProductGroup>();
             //CreateMap<ProductGroup, ProductGroupResponseDto>();
 
             //// Diğer entity'ler için de burada tanımlarsınız

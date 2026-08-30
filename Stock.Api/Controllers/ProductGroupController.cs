@@ -19,7 +19,7 @@ namespace Stock.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(ProductGroupRequestDto productGroup)
+        public async Task<IActionResult> InsertAsync(ProductGroupInsertRequestDto productGroup)
         {
             ProductGroup newProductGroup = _mapper.Map<ProductGroup>(productGroup);
 
@@ -29,8 +29,26 @@ namespace Stock.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(ProductGroupUpdateRequestDto productGroup)
+        {
+            ProductGroup updatedProductGroup = _mapper.Map<ProductGroup>(productGroup);
+
+            var result = await _productGroupService.UpdateAsync(updatedProductGroup);
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _productGroupService.DeleteAsync(id);
+
+            return Ok();
+        }
+
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> ListAsync()
         {
             var result = await _productGroupService.ListAsync();
             return Ok(result);
