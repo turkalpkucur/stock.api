@@ -1,4 +1,4 @@
-﻿namespace Stock.Entities.Dtos
+﻿namespace Stock.Entities.Dtos.ProductGroup
 {
     public class ProductGroupInsertRequestDto
     {

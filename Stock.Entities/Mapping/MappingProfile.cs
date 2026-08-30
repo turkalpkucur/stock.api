@@ -1,6 +1,7 @@
-﻿using Stock.Entities.Dtos;
-using Stock.Entities.Entities;
+﻿using Stock.Entities.Entities;
 using AutoMapper;
+using Stock.Entities.Dtos.ProductGroup;
+using Stock.Entities.Dtos.Product;
 namespace Stock.Entities.Mapping
 {
     public class MappingProfile : Profile
@@ -9,6 +10,9 @@ namespace Stock.Entities.Mapping
         {
             CreateMap<ProductGroupInsertRequestDto, ProductGroup>();
             CreateMap<ProductGroupUpdateRequestDto, ProductGroup>();
+
+            CreateMap<ProductInsertRequestDto, Product>();
+            CreateMap<ProductUpdateRequestDto, Product>();
             //CreateMap<ProductGroup, ProductGroupResponseDto>();
 
             //// Diğer entity'ler için de burada tanımlarsınız

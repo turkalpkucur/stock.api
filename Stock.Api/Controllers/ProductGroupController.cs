@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Stock.Entities.Dtos;
+using Stock.Entities.Dtos.ProductGroup;
 using Stock.Entities.Entities;
 using Stock.Services.Abstract;
 

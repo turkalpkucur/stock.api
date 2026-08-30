@@ -27,12 +27,20 @@ namespace Stock.Services.Data
                 entity.Property(e => e.Id).HasColumnName("product_group_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd(); 
                 entity.Property(e => e.Name).HasColumnName("product_group_name").IsRequired(); 
             });
+
+
+
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.ToTable("products", schema: "stockgeneral");
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                entity.ToTable("products", schema: "stockgeneral").HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("product_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd();
+                entity.Property(e => e.Name).HasColumnName("product_name").IsRequired();
+                entity.Property(e => e.Description).HasColumnName("product_description").IsRequired();
+                entity.Property(e => e.ProductGroupId).HasColumnName("product_group_id").IsRequired();
+
+                entity.HasOne(p => p.ProductGroup)
+        .WithMany()
+        .HasForeignKey(p => p.ProductGroupId);
             });
 
             modelBuilder.Entity<User>()
@@ -45,3 +53,4 @@ namespace Stock.Services.Data
         }
     }
 }
+

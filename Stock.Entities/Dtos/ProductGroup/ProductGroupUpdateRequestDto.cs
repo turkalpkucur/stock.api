@@ -1,6 +1,6 @@
-﻿namespace Stock.Entities.Dtos
+﻿namespace Stock.Entities.Dtos.ProductGroup
 {
-    public class ProductGroupResponse
+    public class ProductGroupUpdateRequestDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
