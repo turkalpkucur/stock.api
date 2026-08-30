@@ -19,10 +19,33 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Insert(ProductInsertRequestDto product)
+    public async Task<IActionResult> InsertAsync(ProductInsertRequestDto product)
     {
         Product newProduct = _mapper.Map<Product>(product);
         Product result= await _productService.InsertAsync(newProduct);
         return Ok(result);
     }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync(ProductUpdateRequestDto product)
+    {
+        Product newProduct = _mapper.Map<Product>(product);
+        Product result = await _productService.UpdateAsync(newProduct);
+        return Ok(result);
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        await _productService.DeleteAsync(id);
+        return Ok();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ListAsync()
+    {
+        List<ProductResponse> products = await _productService.ListAsync();
+        return Ok(products);
+    }
+
 }
