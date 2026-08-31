@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Stock.Entities.Dtos.Product;
+﻿using Stock.Entities.Dtos.Product;
 using Stock.Entities.Entities;
 
 namespace Stock.Services.Abstract

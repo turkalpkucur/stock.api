@@ -26,8 +26,8 @@ namespace Stock.Services.Data
             modelBuilder.Entity<UserProfile>(entity =>
             {
                 entity.ToTable("user_profiles", schema: "auth").HasKey(e => e.Id);
-                entity.Property(e => e.Id).HasColumnName("user_profile_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd(); 
-                entity.Property(e => e.Name).HasColumnName("user_profile_name").IsRequired(); 
+                entity.Property(e => e.Id).HasColumnName("user_profile_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd();
+                entity.Property(e => e.Name).HasColumnName("user_profile_name").IsRequired();
             });
 
 
@@ -53,14 +53,18 @@ namespace Stock.Services.Data
         .HasForeignKey(p => p.ProductGroupId);
             });
 
-            modelBuilder.Entity<User>()
-                .ToTable("user", schema: "auth"); // şema doğruysa
 
-            modelBuilder.Entity<User>()
-                .Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(200);
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("users", schema: "auth").HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("user_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd();
+                entity.Property(e => e.Email).HasColumnName("user_email").IsRequired();
+                entity.Property(e => e.UserProfileId).HasColumnName("user_profile_id").IsRequired();
+
+                entity.HasOne(p => p.UserProfile)
+        .WithMany()
+        .HasForeignKey(p => p.UserProfileId);
+            });
         }
     }
 }
-
