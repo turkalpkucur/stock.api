@@ -12,7 +12,7 @@ namespace Stock.Services.Data
         }
 
         public DbSet<Product> Products { get; set; }
-
+        public DbSet<Permission> Permissions { get; set; }
         public DbSet<ProductGroup> ProductGroups { get; set; }
 
         public DbSet<User> Users { get; set; }
@@ -61,6 +61,19 @@ namespace Stock.Services.Data
                 entity.Property(e => e.Email).HasColumnName("user_email").IsRequired();
                 entity.Property(e => e.UserProfileId).HasColumnName("user_profile_id").IsRequired();
 
+                entity.HasOne(p => p.UserProfile)
+        .WithMany()
+        .HasForeignKey(p => p.UserProfileId);
+            });
+
+
+            modelBuilder.Entity<Permission>(entity =>
+            {
+                entity.ToTable("permissions", schema: "auth").HasKey(e => e.Id);
+                entity.Property(e => e.Id).HasColumnName("permission_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd();
+                entity.Property(e => e.UserProfileId).HasColumnName("user_profile_id").IsRequired();
+                entity.Property(e => e.PageLink).HasColumnName("page_link").IsRequired();
+               
                 entity.HasOne(p => p.UserProfile)
         .WithMany()
         .HasForeignKey(p => p.UserProfileId);

@@ -6,7 +6,6 @@ namespace Stock.Services.Abstract
     public interface IProductService
     {
         Task<Product> InsertAsync(Product product);
-
         Task<Product> UpdateAsync(Product product);
         Task DeleteAsync(int id);
         Task<List<ProductResponse>> ListAsync();
