@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Stock.Core\Stock.Core.csproj" />
     <ProjectReference Include="..\Stock.Services\Stock.Services.csproj" />
   </ItemGroup>
 

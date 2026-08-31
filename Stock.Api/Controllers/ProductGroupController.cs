@@ -8,7 +8,7 @@ namespace Stock.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductGroupController : ControllerBase
+    public class ProductGroupController : BaseController
     {
         private readonly IProductGroupService _productGroupService;
         private readonly IMapper _mapper;

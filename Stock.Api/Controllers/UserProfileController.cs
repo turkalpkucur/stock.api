@@ -8,7 +8,7 @@ namespace Stock.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserProfileController : ControllerBase
+    public class UserProfileController : BaseController
     {
         private readonly IUserProfileService _userProfileService;
         private readonly IMapper _mapper;

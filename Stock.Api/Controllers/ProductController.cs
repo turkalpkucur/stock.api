@@ -8,7 +8,7 @@ namespace Stock.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController : ControllerBase
+public class ProductController : BaseController
 {
     private readonly IProductService _productService;
     private readonly IMapper _mapper;
