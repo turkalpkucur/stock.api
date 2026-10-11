@@ -16,6 +16,16 @@ builder.Services.AddDbContext<StockDbContext>(options =>
     ).EnableSensitiveDataLogging()
 
            .LogTo(Console.WriteLine, LogLevel.Information));
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(1);
+    options.IOTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    options.Cookie.IsEssential = true;
+
+});
+
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductGroupService, ProductGroupService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
@@ -25,6 +35,9 @@ builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+
+
 
 var app = builder.Build();
 
@@ -43,5 +56,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseSession();
 app.Run();

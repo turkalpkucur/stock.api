@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Reflection;
 namespace Stock.Api.Controllers
 {
+
     public class BaseController : Controller
     {
         public LoginUserDto CurrentUser
@@ -16,6 +17,7 @@ namespace Stock.Api.Controllers
             get { return ControllerContext.HttpContext.Session.GetObject<LoginUserDto>("user"); }
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             LoginUserDto user = ControllerContext.HttpContext.Session.GetObject<LoginUserDto>("user");
@@ -58,6 +60,7 @@ namespace Stock.Api.Controllers
             }
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(/*string status*/)
         {

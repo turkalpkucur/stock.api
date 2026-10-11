@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Stock.Entities.Dtos.Product;
 using Stock.Entities.Dtos.User;
 using Stock.Entities.Entities;
 using Stock.Services.Abstract;
-using Stock.Services.Concrete;
 
 namespace Stock.Api.Controllers
 {
