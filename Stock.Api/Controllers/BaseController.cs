@@ -24,7 +24,7 @@ namespace Stock.Api.Controllers
 
             if (user == null && context.ActionDescriptor.RouteValues["controller"] != "Admin")
             {
-                context.Result = (ActionResult)new RedirectToActionResult("login", "admin", null);
+              //  context.Result = (ActionResult)new RedirectToActionResult("login", "admin", null);
             }
             else
             {

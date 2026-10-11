@@ -6,8 +6,8 @@ namespace Stock.Services.Abstract
 {
     public interface IUserService
     {
+        Task<User> GetByIdAsync(int id);
         Task<User> InsertAsync(User user);
-
         Task<User> UpdateAsync(User user);
         Task DeleteAsync(int id);
         Task<List<UserResponse>> ListAsync();

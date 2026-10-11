@@ -54,27 +54,21 @@ namespace Stock.Api.Controllers
 
                 LoginUserDto user = await _userService.GetActiveUserByMailLoginUserDto(req.Email); //1
 
-                _userService.AuthenticateUser(req.Password,
-                   new User()
-                   {
-                       PasswordHash = user.PasswordHash,
-                       PasswordSalt = user.PasswordSalt
-                   }); //2
-
-                // hem 1 hem 2 de login kontrolü yapılıyor....
-                // 
-
+                await _userService.AuthenticateUser(req.Password,
+                     new User()
+                     {
+                         PasswordHash = user.PasswordHash,
+                         PasswordSalt = user.PasswordSalt
+                     });  
                 List<PermissionDto> Permissions = await _permissionService.ReturnPermissionsByProfileId(
                     user.UserProfileId);
                 user.Permissions = Permissions;
                 HttpContext.Session.SetObject("user", user);
                 return Ok(new { success = true, message = "Success.." });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Ok(new { success = false, message = "There is no user." });
-                //  ViewBag.Error = ex.Message;
-                //  return Json(new { success = false, message = ex.Message });
             }
         }
 
@@ -89,4 +83,4 @@ namespace Stock.Api.Controllers
             });
         }
     }
-    }
+}

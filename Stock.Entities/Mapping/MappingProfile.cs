@@ -22,6 +22,9 @@ namespace Stock.Entities.Mapping
 
             CreateMap<UserInsertRequestDto, User>();
             CreateMap<UserUpdateRequestDto, User>();
+            CreateMap<UserInsertRequestDto, User>();
+             
+
 
             CreateMap<PermissionInsertRequestDto, Permission>();
             CreateMap<PermissionUpdateRequestDto, Permission>();

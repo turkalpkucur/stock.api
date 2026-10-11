@@ -6,18 +6,22 @@ using Stock.Services.Data;
 
 namespace Stock.Services.Concrete
 {
-    public class UserService :IUserService
+    public class UserService : IUserService
     {
         private readonly StockDbContext _context;
         public UserService(StockDbContext context)
         {
             _context = context;
         }
+        public async Task<User> GetByIdAsync(int id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
         public async Task<User> InsertAsync(User user)
         {
-             await _context.Users.AddAsync(user);
-             await _context.SaveChangesAsync();
-             return user;
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
         public async Task<User> UpdateAsync(User user)
         {
@@ -46,7 +50,7 @@ namespace Stock.Services.Concrete
 
             foreach (var userResponse in userResponses)
             {
-                var user=  await _context.Users.FirstOrDefaultAsync(u => u.Id == userResponse.Id);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userResponse.Id);
                 if (user != null)
                 {
                     userResponse.UserProfileId = user.UserProfileId;
@@ -57,7 +61,7 @@ namespace Stock.Services.Concrete
         public async Task AuthenticateUser(string password, User user)
         {
             bool result = await VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
-            if (!result)
+            if (result==false)
                 throw new Exception("Wrong password!");
         }
         private async Task<bool> VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -81,27 +85,25 @@ namespace Stock.Services.Concrete
 
         public async Task<LoginUserDto> GetActiveUserByMailLoginUserDto(string email)
         {
-           
-                LoginUserDto user = _context.Users
-                .Where(x => x.Email == email ).Select(t => new LoginUserDto()
-                {
-                    Email = t.Email,
-                    FirstName = t.FirstName,
-                    LastName = t.LastName,
-                    Id = t.Id,
-                    PasswordSalt = t.PasswordSalt,
-                    PasswordHash = t.PasswordHash,
-             
-                }).FirstOrDefault();
 
+            LoginUserDto user = _context.Users
+            .Where(x => x.Email == email).Select(t => new LoginUserDto()
+            {
+                Email = t.Email,
+                FirstName = t.FirstName,
+                LastName = t.LastName,
+                Id = t.Id,
+                PasswordSalt = t.PasswordSalt,
+                PasswordHash = t.PasswordHash,
+                UserProfileId=t.UserProfileId
+
+            }).FirstOrDefault();
+
+            if (user != null)
+            {
                 user.UserProfileId = _context.UserProfiles.Where(g => g.Id == user.UserProfileId).FirstOrDefault().Id;
-
-                //if (!(user.OperationClaimId == 1 || user.OperationClaimId == 6 || user.OperationClaimId == 7))
-                //    throw new Exception("User cannot be found.");
-
-                if (user == null)
-                    throw new Exception("User cannot be found.");
-                return user;
+            }
+            return user;
         }
     }
 }
