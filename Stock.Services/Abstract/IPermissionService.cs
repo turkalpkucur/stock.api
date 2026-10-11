@@ -9,5 +9,6 @@ namespace Stock.Services.Abstract
         Task<Permission> UpdateAsync(Permission permission);
         Task DeleteAsync(int id);
         Task<List<PermissionResponse>> ListAsync();
+        Task<List<PermissionDto>> ReturnPermissionsByProfileId(int ProfileId);
     }
 }

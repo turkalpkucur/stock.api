@@ -3,42 +3,56 @@ using Stock.Entities.Dtos.CustomDtos;
 using Stock.Entities.Dtos.Permission;
 using Stock.Entities.Dtos.User;
 using Stock.Entities.Entities;
+using Stock.Services.Abstract;
 using System.Diagnostics;
+using Stock.Core;
+
 
 namespace Stock.Api.Controllers
 {
-    public class AuthController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
-
-
-        [HttpGet]
-        public JsonResult Logout()
+        private readonly IUserService _userService;
+        private readonly IPermissionService _permissionService;
+        public AuthController(IUserService userService, IPermissionService permissionService)
         {
-            HttpContext.Session.Remove("areaadminuser");
-            return Json(true);
+            _userService = userService;
+            _permissionService = permissionService;
         }
 
-        public IActionResult Index()
+
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
         {
-            return View();
+            HttpContext.Session.Remove("user");
+            return Ok(true);
         }
 
-        [HttpPost]
+        //[HttpGet]
+        //public async Task<IActionResult> SignOut()
+        //{
+        //    ControllerContext.HttpContext.Session.Clear();
+        //    return Ok(new { success = true, message = "Signed out successfully." });
+        //}
+
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(UserForLoginDto req)
         {
             try
             {
                 if (string.IsNullOrEmpty(req.Email))
                 {
-                    return Json(new { success = false, message = "Email giriş yapınız.." });
+                    return Ok(new { success = false, message = "Email giriş yapınız.." });
                 }
 
                 if (string.IsNullOrEmpty(req.Password))
                 {
-                    return Json(new { success = false, message = "Şifre giriş yapınız.." });
+                    return Ok(new { success = false, message = "Şifre giriş yapınız.." });
                 }
 
-                LoginUserDto user = _userService.GetActiveUserByMailLoginUserDto(req.Email); //1
+                LoginUserDto user = await _userService.GetActiveUserByMailLoginUserDto(req.Email); //1
 
                 _userService.AuthenticateUser(req.Password,
                    new User()
@@ -49,37 +63,30 @@ namespace Stock.Api.Controllers
 
                 // hem 1 hem 2 de login kontrolü yapılıyor....
                 // 
-                UserOperationClaim Usp = _userOperationClaimsService.ReturnByUserId(user.UserId);
-                List<PermissionDto> Permissions = _permissionService.ReturnPermissionsByOperationClaimId(
-                    user.OperationClaimId, user.FirmId);
+
+                List<PermissionDto> Permissions = await _permissionService.ReturnPermissionsByProfileId(
+                    user.UserProfileId);
                 user.Permissions = Permissions;
-                HttpContext.Session.SetObject("areaadminuser", user);
-                UserHub.CurrentUserIdForUserHub = user.UserId;
-                return Json(new { success = true, message = "Success.." });
+                HttpContext.Session.SetObject("user", user);
+                return Ok(new { success = true, message = "Success.." });
             }
-            catch
+            catch(Exception ex)
             {
-                return Json(new { success = false, message = "There is no user." });
+                return Ok(new { success = false, message = "There is no user." });
                 //  ViewBag.Error = ex.Message;
                 //  return Json(new { success = false, message = ex.Message });
             }
         }
 
-        [HttpGet]
-        public IActionResult SignOut()
-        {
-            ControllerContext.HttpContext.Session.Clear();
-
-            return RedirectToAction("index", "account");
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet("Error")]
+        public async Task<IActionResult> Error()
         {
-            return View(new ErrorViewModel
+            return Ok(new ErrorViewModel
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             });
         }
     }
-}
+    }

@@ -59,8 +59,14 @@ namespace Stock.Services.Data
                 entity.ToTable("users", schema: "auth").HasKey(e => e.Id);
                 entity.Property(e => e.Id).HasColumnName("user_id").IsRequired().UseIdentityColumn().ValueGeneratedOnAdd();
                 entity.Property(e => e.Email).HasColumnName("user_email").IsRequired();
-                entity.Property(e => e.UserProfileId).HasColumnName("user_profile_id").IsRequired();
 
+                entity.Property(e => e.FirstName).HasColumnName("first_name").IsRequired();
+                entity.Property(e => e.LastName).HasColumnName("last_name").IsRequired();
+                entity.Property(e => e.PasswordSalt).HasColumnName("password_salt");
+
+                entity.Property(e => e.UserProfileId).HasColumnName("user_profile_id").IsRequired();
+                entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
+                entity.Property(e => e.PasswordSalt).HasColumnName("password_salt");
                 entity.HasOne(p => p.UserProfile)
         .WithMany()
         .HasForeignKey(p => p.UserProfileId);

@@ -50,6 +50,16 @@ namespace Stock.Services.Concrete
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<PermissionDto>> ReturnPermissionsByProfileId(int ProfileId)
+        {
+            List<PermissionDto> permissions = _context.Permissions.Where(p => p.UserProfileId == ProfileId).Select(p => new PermissionDto
+            {
+                Id = p.Id,
+                PageLink = p.PageLink,
+                UserProfileId = p.UserProfileId
+            }).ToList();
+            return permissions;
+        }
     }
 }
 

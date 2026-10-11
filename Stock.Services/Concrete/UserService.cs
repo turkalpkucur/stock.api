@@ -54,5 +54,54 @@ namespace Stock.Services.Concrete
             }
             return userResponses.OrderBy(u => u.Email).ToList();
         }
+        public async Task AuthenticateUser(string password, User user)
+        {
+            bool result = await VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
+            if (!result)
+                throw new Exception("Wrong password!");
+        }
+        private async Task<bool> VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt);
+            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            for (int i = 0; i < computedHash.Length; i++)
+                if (computedHash[i] != passwordHash[i]) return false;
+
+            return true;
+        }
+
+
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using var hmac = new System.Security.Cryptography.HMACSHA512();
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        }
+
+        public async Task<LoginUserDto> GetActiveUserByMailLoginUserDto(string email)
+        {
+           
+                LoginUserDto user = _context.Users
+                .Where(x => x.Email == email ).Select(t => new LoginUserDto()
+                {
+                    Email = t.Email,
+                    FirstName = t.FirstName,
+                    LastName = t.LastName,
+                    Id = t.Id,
+                    PasswordSalt = t.PasswordSalt,
+                    PasswordHash = t.PasswordHash,
+             
+                }).FirstOrDefault();
+
+                user.UserProfileId = _context.UserProfiles.Where(g => g.Id == user.UserProfileId).FirstOrDefault().Id;
+
+                //if (!(user.OperationClaimId == 1 || user.OperationClaimId == 6 || user.OperationClaimId == 7))
+                //    throw new Exception("User cannot be found.");
+
+                if (user == null)
+                    throw new Exception("User cannot be found.");
+                return user;
+        }
     }
 }
